@@ -7,10 +7,10 @@
     "node": ">=14.17.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint",
-    "start prod": "node server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "Melanie",
