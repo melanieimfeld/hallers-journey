@@ -1,10 +1,10 @@
 {
-  "name": "6_code",
+  "name": "hallers-journey",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "engines": {
-    "node": ">=14.17.4"
+    "node": "14.x"
   },
   "scripts": {
     "dev": "react-scripts start",
