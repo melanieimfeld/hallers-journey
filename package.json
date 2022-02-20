@@ -1,0 +1,38 @@
+{
+  "name": "6_code",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "lint": "eslint",
+    "start prod": "node server.js"
+  },
+  "keywords": [],
+  "author": "Melanie",
+  "license": "ISC",
+  "dependencies": {
+    "@turf/turf": "^6.3.0",
+    "express": "^4.17.1",
+    "intersection-observer": "^0.12.0",
+    "mapbox-gl": "^2.4.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3",
+    "react-scrollama": "^2.2.16",
+    "scrollama": "^2.2.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11"
+  ],
+  "devDependencies": {
+    "webpack-bundle-analyzer": "^4.5.0"
+  }
+}
