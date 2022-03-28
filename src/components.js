@@ -2,11 +2,11 @@ import React from 'react';
 import flowerIcon from './assets/images/flower-icon.svg';
 import {ReactComponent as Hide} from './assets/images/btnhide.svg';
 import {ReactComponent as Show} from './assets/images/btnshow.svg';
-import img0 from './assets/images/small/locator-map.svg';
-import img from './assets/images/small/1-min.png';
-import img2 from './assets/images/small/2-min.png';
-import img3 from './assets/images/small/3-min.png';
-import img4 from './assets/images/small/4-min.png';
+import img0 from './assets/images/locator-map.svg';
+import img from './assets/images/1-min.png';
+import img2 from './assets/images/2-min.png';
+import img3 from './assets/images/3-min.png';
+import img4 from './assets/images/4-min.png';
 
 class Story extends React.Component {
     getStoryElement(chapter, opacity) {

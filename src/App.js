@@ -95,8 +95,7 @@ export default function App() {
                 .setup({
                     step: '.step',
                     offset: 0.5,
-                    progress: true,
-                    debug: true
+                    progress: true
                 })
                 .onStepEnter((response) => actions.enter(response, config, map.current))
                 .onStepProgress((response) => actions.progress(response, config, map.current, data))
@@ -105,9 +104,7 @@ export default function App() {
             // bottom of page is reached, zoom out to entire route
             window.onscroll = (ev) => {
                 if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                    console.log('end of scroll');
                     map.current.setPitch(0);
-                    // map.current.setBearing(76);
                     map.current.fitBounds([
                         [
                             7.411651611328124,
