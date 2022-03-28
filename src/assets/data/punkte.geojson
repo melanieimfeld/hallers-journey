@@ -1,0 +1,61 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Bern",
+                "ele_m": 540
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.453844137778386,
+                    46.94769307884822
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Lützelflüh-Goldbach",
+                "ele_m": 585
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.675979605822949,
+                    47.00282930260984
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Hinterarnialp",
+                "ele_m": 1220
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.868078203938751,
+                    47.02071760525167
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Obere Lushütte",
+                "ele_m": 1339
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    7.88791,
+                    47.00467
+                ]
+            }
+        }
+    ]
+}

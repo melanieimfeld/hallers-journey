@@ -1,8 +1,12 @@
 import React from 'react';
-import icon from './assets/images/icon.svg';
+import flowerIcon from './assets/images/flower-icon.svg';
 import {ReactComponent as Hide} from './assets/images/btnhide.svg';
 import {ReactComponent as Show} from './assets/images/btnshow.svg';
-import img from './assets/images/placeholder.png';
+import img0 from './assets/images/small/locator-map.svg';
+import img from './assets/images/small/1-min.png';
+import img2 from './assets/images/small/2-min.png';
+import img3 from './assets/images/small/3-min.png';
+import img4 from './assets/images/small/4-min.png';
 
 class Story extends React.Component {
     getStoryElement(chapter, opacity) {
@@ -17,13 +21,16 @@ class Story extends React.Component {
             />
         }
         if (chapter.type === 'chapter') {
+            console.log(chapter, chapter.id);
             return <Chapter
                 key={chapter.id}
+                id={chapter.id}
+                image={chapter.image}
                 title={chapter.title}
                 subtitle={chapter.subtitle}
                 description={chapter.description}
                 species={chapter.species}
-                style={opacity}
+                visibility={opacity}
             />
         }
         if (chapter.type === 'footer') {
@@ -32,13 +39,14 @@ class Story extends React.Component {
                 title={chapter.title}
                 subtitle={chapter.subtitle}
                 description={chapter.description}
+                visibility={opacity}
             />
         }
     }
 
     render() {
         const chapters = this.props.chapters;
-        const opacity = this.props.visibility? 0 : 0.85;
+        const opacity = this.props.visibility? 'hidden' : 'visible';
         console.log('opacity', this.props.visibility, opacity);
         //console.log('chpaters', chapters, this.props.slideNum);
 
@@ -60,6 +68,10 @@ function Header(props) {
                 <hr />
                 <h2>{props.subtitle}</h2>
                 <p>{props.description}</p>
+                <div className='headerImg'>
+                    <img alt={props.title} src={img0}/>
+                <div/>
+            </div>
             </div>
         </div>
     );
@@ -67,43 +79,50 @@ function Header(props) {
 
 function Footer(props) {
     return (
-        <div className='step left'>
+        <div className='step left' style={{visibility : props.visibility}}>
             <h2>{props.title}</h2>
             <hr />
-            <ul>
-                <li>{props.subtitle}</li>
-                <li>{props.subtitle}</li>
-                <li>{props.subtitle}</li>
-                <li>{props.subtitle}</li>
-                <li>{props.subtitle}</li>
-                <li>{props.subtitle}</li>
-                <li>{props.subtitle}</li>
-            </ul>
+            {props.description}
         </div>
     );
 }
 
 function Chapter(props) {
-    console.log('opacity props in chapter', props.style);
     return (
-        <div className='step left' style={{opacity : props.style}}>
+        <div className='step left chapter' style={{visibility : props.visibility}}>
             <h2>{props.title}</h2>
             <hr />
-            <DataViz species={props.species} />
             <h3>{props.subtitle}</h3>
-            <p>{props.description}</p>
-            <img alt={`Image for ${props.title}`} src={img}/>
+            <DataViz species={props.species} />
+            <p className='mainText'>{props.description}</p>
+            <img alt={props.title} src={getImage(props.id)}/>
+            <p className='imgText'>{props.image}</p>
         </div>
     );
+}
+
+function getImage(key) {
+    switch (key) {
+        case 1:
+            return img
+        case 2:
+            return img2
+        case 3:
+            return img3
+        case 4:
+            return img4
+        default:
+            return img4
+    }
 }
 
 function DataViz(props) {
     const species = new Array(props.species).fill(0);
     return (
         <div className='counter-container' >
-            <h4 className='icon-text' >20km | Species counted:</h4>
+            <h4 className='icon-text' >Anzahl Spezies:</h4>
             {species.map((elem, idx) =>
-                <img key={idx.toString()} alt={`species ${idx.toString()}`} className={idx >= props.species-1 ? 'icon' : 'icon-fixed'} src={icon} />
+                <img key={idx.toString()} alt={`species ${idx.toString()}`} className='icon' src={flowerIcon} width={33} height={60}/>
             )}
         </div>
     );
@@ -111,7 +130,7 @@ function DataViz(props) {
 
 function Button(props) {
     return (
-    <button className='btn' onClick={() => props.onClick(props.visibility)}>
+    <button className='btn' aria-label='hideText' onClick={() => props.onClick(props.visibility)}>
         {props.visibility ? <Hide/> : <Show/>}
     </button>
     )
