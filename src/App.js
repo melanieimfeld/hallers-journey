@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'intersection-observer';
 import scrollama from 'scrollama';
@@ -6,15 +6,16 @@ import scrollama from 'scrollama';
 import { config } from './config';
 import { createLine } from './util/path';
 import { actions } from './util/scroll';
-import { Button, Story } from './components';
+import { Header } from './Header';
+import { Button } from './Button';
 import { rawData } from './assets/data/hallers_reise';
+const Story = lazy(() => import('./Story'));
 
 mapboxgl.accessToken = config.accessToken;
 
 /*todo:
 - shorten intro
-- Cleanup config and pass config as entire object to components
-- make all images the same size to improve performance
+- Improve performance (interaction observer)
 - Cleanup code / unused assets
 */
 
@@ -79,7 +80,7 @@ export default function App() {
             map.current.addLayer(config.layers.circle, 'markers');
 
             const mapContainerSize = mapContainer.current.getBoundingClientRect();
-            console.log('mapcontainer', mapContainerSize);
+ 
             let mapOffset = 0;
             
             if (mapContainerSize.width >= 551 && mapContainerSize.width <= 1440 ) {
@@ -127,7 +128,16 @@ export default function App() {
     return (
         <div>
             <div ref={mapContainer} className='map-container' />
-            <Story chapters={config.chapters} visibility={isVisible}/>
+            {/* <Story chapters={config.chapters} visibility={isVisible}/> */}
+            <Header
+                key={config.chapters[0].id}
+                title={config.chapters[0].title}
+                subtitle={config.chapters[0].subtitle}
+                description={config.chapters[0].description}
+            />
+            <Suspense fallback={<div>Loading Component</div>}>
+                <Story chapters={config.chapters} visibility={isVisible}/>
+            </Suspense>
             <Button visibility={isVisible} onClick={handleChange}/>
         </div>
     );

@@ -31,6 +31,7 @@ a {
 
 .step {
     color: #444;
+    box-shadow: 10px 0 10px -10px  rgba(0, 0, 0, 0.15);
     background-color: #fff1e6;
     opacity: 0.85;
     /* backface-visibility: hidden;
@@ -100,14 +101,23 @@ a {
     background-color: #ef4c26;
 }
 
-/* 320px — 480px: Mobile devices
+/* 
+<= 480px: Mobile devices
 481px — 768px: iPads, Tablets
 769px — 1024px: Small screens, laptops
 1025px — 1200px: Desktops, large screens
-1201px and more —  Extra large screens, TV */
+1201px and more —  Extra large screens, TV 
+*/
 
 /* equal or smaller than 480px (phones)*/
 @media all and (max-width: 550px) {
+    .btn:hover {
+        -webkit-transform: none;
+        -moz-transform: none;
+        -ms-transform: none;
+        transform: none;
+    }
+
     .left {
         /* width: 100vw; */
         margin: 50vh 0 0 0;

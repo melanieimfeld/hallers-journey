@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 export let config = {
-    // style: 'mapbox://styles/imfeld/cknxg51sa36n817paehjnggrd',
+    // style: 'mapbox://styles/imfeld/cl21ra1zh000914naab2l38ri',
     style: 'mapbox://styles/imfeld/cks39pts43hdh17qpb1atgpnl',
     accessToken: 'pk.eyJ1IjoiaW1mZWxkIiwiYSI6ImNrZDk1Y2lmcDBzdGMycmx2NWhubnFjd2wifQ.LeVJDbIpVqOhpYeZwJk6mg',
     showMarkers: true,
@@ -27,8 +27,8 @@ export let config = {
             type: "circle",
             source: "pointSource",
             paint: {
-                "circle-radius": 27,
-                "circle-opacity": 1,
+                "circle-radius": 26,
+                "circle-opacity": 0.8,
                 "circle-color": "#4b433a",
                 'circle-pitch-alignment': 'map',
                 "circle-blur": 1,
@@ -58,7 +58,7 @@ export let config = {
             title: "Hallers Reise",
             image: '',
             subtitle: 'Das Emmental aus der Sicht eines Universalgelehrten des 18. Jahrhunderts',
-            description: 'Es war der 9. Juni 1739, als sich Albrecht von Haller auf eine Reise in das Emmental aufmachte. Nebst seiner Tätigkeit als Professor der Medizin war Haller ein leidenschaftlicher Botaniker. Sein Interesse galt insbesondere der Alpenflora, weswegen er mehrere Reisen unternahm, von welchen er in seinem Werk „Schweizer Reise“ berichtete. Auch seine Reise ins Emmental dokumentierte er ausführlich. Von der generellen Alpenfaszination geprägt, welche die Intellektuellen des 18. Jahrhunderts erfasste, ist Hallers Reisebericht durchdrungen von dichterischen Reflexionen. Diese Begeisterung machte Albrecht von Haller wohl zu einem der ersten Touristen, den die Bewohner des Emmentals zu Gesicht bekamen.',
+            description: 'Es war der 9. Juni 1739, als sich Albrecht von Haller auf eine Reise in das Emmental aufmachte. Nebst seiner Tätigkeit als Professor der Medizin war Haller ein leidenschaftlicher Botaniker. Sein Interesse galt insbesondere der Alpenflora, weswegen er mehrere Reisen unternahm, von welchen er in seinem Werk „Schweizer Reise“ berichtete. Auch seine Reise ins Emmental dokumentierte er ausführlich. Geprägt von der generellen Alpenfaszination, welche die Intellektuellen des 18. Jahrhunderts erfasste, ist Hallers Reisebericht durchdrungen von dichterischen Reflexionen. Diese Begeisterung machte Albrecht von Haller wohl zu einem der ersten Touristen, den die Bewohner des Emmentals zu Gesicht bekamen.',
             marker: '',
             location: {
                 center: [7.453844137778386, 46.947693078848218],

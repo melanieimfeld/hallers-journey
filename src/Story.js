@@ -1,8 +1,5 @@
 import React from 'react';
 import flowerIcon from './assets/images/flower-icon.svg';
-import {ReactComponent as Hide} from './assets/images/btnhide.svg';
-import {ReactComponent as Show} from './assets/images/btnshow.svg';
-import img0 from './assets/images/locator-map.svg';
 import img from './assets/images/1-min.png';
 import img2 from './assets/images/2-min.png';
 import img3 from './assets/images/3-min.png';
@@ -10,18 +7,7 @@ import img4 from './assets/images/4-min.png';
 
 class Story extends React.Component {
     getStoryElement(chapter, opacity) {
-        //console.log('what is chapter', chapter.type === 'chapter', chapter.type);
-
-        if (chapter.type === 'header') {
-            return <Header
-                key={chapter.id}
-                title={chapter.title}
-                subtitle={chapter.subtitle}
-                description={chapter.description}
-            />
-        }
         if (chapter.type === 'chapter') {
-            console.log(chapter, chapter.id);
             return <Chapter
                 key={chapter.id}
                 id={chapter.id}
@@ -47,8 +33,6 @@ class Story extends React.Component {
     render() {
         const chapters = this.props.chapters;
         const opacity = this.props.visibility? 'hidden' : 'visible';
-        console.log('opacity', this.props.visibility, opacity);
-        //console.log('chpaters', chapters, this.props.slideNum);
 
         return (
             <div className='story-container'>
@@ -58,23 +42,6 @@ class Story extends React.Component {
             </div>
         );
     }
-}
-
-function Header(props) {
-    return (
-        <div className='step header'>
-            <div className='headerInner'>
-                <h1>{props.title}</h1>
-                <hr />
-                <h2>{props.subtitle}</h2>
-                <p>{props.description}</p>
-                <div className='headerImg'>
-                    <img alt={props.title} src={img0}/>
-                <div/>
-            </div>
-            </div>
-        </div>
-    );
 }
 
 function Footer(props) {
@@ -128,12 +95,5 @@ function DataViz(props) {
     );
 }
 
-function Button(props) {
-    return (
-    <button className='btn' aria-label='hideText' onClick={() => props.onClick(props.visibility)}>
-        {props.visibility ? <Hide/> : <Show/>}
-    </button>
-    )
-}
 
-export {Story, Button}
+export default Story
