@@ -3,27 +3,24 @@ import { changeCenter } from './path.js';
 
 export const actions = {
     exit: (response) => {
-        response.element.classList.remove('active');
+        const { element } = response;
+        element.classList.remove('active');
     },
     enter: (response, config, map) => {
-        const { element } = response;
+        const { index, element } = response;
         element.classList.add('active');    
         
-        const chapter = config.chapters.find(
-            (chap) => chap.id === response.index
-        );
-        const speciesList = element.querySelectorAll('.icon');;
-    
-        Array.from(speciesList).forEach( (item, idx) => {
+        [...element.querySelectorAll('.icon')].forEach((item, idx) => {
             item.style.animationTimingFunction = "ease-in-out";
             item.style.animationDelay = `${idx * 0.1}s`;
         });
 
         if (element.className.includes('chapter')) {
-            map.getSource('pointSource').setData(point(chapter.location.center));
-            map.getSource('pointSourceBg').setData(point(chapter.location.center));
+            const chapter = config.chapters.find((chap) => chap.id === index);
+            const center = point(chapter.location.center)
+            map.getSource('pointSource').setData(center);
+            map.getSource('pointSourceBg').setData(center);
         }
-   
     },
     progress: (response, config, map, data) => {
 
@@ -62,4 +59,5 @@ export const actions = {
         }
             
     }
+}
 }
