@@ -54,6 +54,11 @@ export default function App() {
     // Reinit on react renders
     useEffect(resetScrollama);
 
+    useEffect(() => {
+        window.addEventListener('resize', resetScrollama);
+        return () => window.removeEventListener('resize', resetScrollama);
+    });
+
     // Init mapbox-gl
     // The earlier map gets the final set of parameters,
     // the less time it will waste on fetching / rendering the wrong thing,
