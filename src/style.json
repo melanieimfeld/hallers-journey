@@ -1,0 +1,1732 @@
+{
+    "version": 8,
+    "name": "foggy_satellite",
+    "metadata": {
+        "mapbox:autocomposite": true,
+        "mapbox:type": "template",
+        "mapbox:sdk-support": {
+            "android": "9.3.0",
+            "ios": "5.10.0",
+            "js": "2.3.0"
+        },
+        "mapbox:groups": {
+            "Satellite imagery, land": {
+                "collapsed": false,
+                "name": "Satellite imagery, land"
+            },
+            "Place labels, place-labels": {
+                "name": "Place labels, place-labels",
+                "collapsed": true
+            },
+            "Land, water, & sky, land": {
+                "name": "Land, water, & sky, land",
+                "collapsed": true
+            },
+            "Land, water, & sky, water": {
+                "name": "Land, water, & sky, water",
+                "collapsed": true
+            },
+            "Land, water, & sky, built": {
+                "name": "Land, water, & sky, built",
+                "collapsed": true
+            },
+            "Land, water, & sky, sky": {
+                "collapsed": false,
+                "name": "Land, water, & sky, sky"
+            }
+        }
+    },
+    "center": [
+        7.857874730213098,
+        47.00738237650299
+    ],
+    "zoom": 13.70711710727284,
+    "bearing": 119.6848254365384,
+    "pitch": 75.02683260018578,
+    "light": {
+        "color": "hsl(0, 0%, 100%)",
+        "anchor": "map",
+        "intensity": 0
+    },
+    "terrain": {
+        "source": "mapbox://mapbox.mapbox-terrain-dem-v1",
+        "exaggeration": 1
+    },
+    "fog": {
+        "color": "hsl(0, 0%, 100%)",
+        "range": [
+            2,
+            10
+        ]
+    },
+    "sources": {
+        "mapbox://mapbox.satellite": {
+            "url": "mapbox://mapbox.satellite",
+            "type": "raster",
+            "tileSize": 256
+        },
+        "mapbox://mapbox.mapbox-terrain-dem-v1": {
+            "url": "mapbox://mapbox.mapbox-terrain-dem-v1",
+            "type": "raster-dem",
+            "tileSize": 512
+        },
+        "composite": {
+            "url": "mapbox://mapbox.mapbox-streets-v8,imfeld.0ce6q4s8",
+            "type": "vector"
+        }
+    },
+    "sprite": "mapbox://sprites/imfeld/cks39pts43hdh17qpb1atgpnl/83xl4xzyyvcebs6xflokpcdn4",
+    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "background",
+            "type": "background",
+            "layout": {},
+            "paint": {
+                "background-color": "hsl(52, 12%, 52%)"
+            },
+            "metadata": {
+                "mapbox:featureComponent": "satellite",
+                "mapbox:group": "Satellite imagery, land"
+            }
+        },
+        {
+            "id": "satellite",
+            "type": "raster",
+            "source": "mapbox://mapbox.satellite",
+            "layout": {},
+            "paint": {
+                "raster-opacity": 0.7,
+                "raster-hue-rotate": -10,
+                "raster-saturation": -0.17,
+                "raster-fade-duration": 10
+            },
+            "metadata": {
+                "mapbox:featureComponent": "satellite",
+                "mapbox:group": "Satellite imagery, land"
+            }
+        },
+        {
+            "minzoom": 4,
+            "layout": {},
+            "filter": [
+                "all",
+                [
+                    "has",
+                    "name"
+                ],
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "dock",
+                        "glacier",
+                        "landform",
+                        "water_feature",
+                        "wetland"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    [
+                        "disputed_dock",
+                        "disputed_glacier",
+                        "disputed_landform",
+                        "disputed_water_feature",
+                        "disputed_wetland"
+                    ],
+                    [
+                        "all",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "disputed"
+                            ],
+                            "true"
+                        ],
+                        [
+                            "match",
+                            [
+                                "get",
+                                "worldview"
+                            ],
+                            [
+                                "all",
+                                "US"
+                            ],
+                            true,
+                            false
+                        ]
+                    ],
+                    false
+                ],
+                [
+                    "==",
+                    [
+                        "geometry-type"
+                    ],
+                    "Point"
+                ],
+                [
+                    "<=",
+                    [
+                        "get",
+                        "filterrank"
+                    ],
+                    2
+                ]
+            ],
+            "type": "circle",
+            "source": "composite",
+            "id": "natural-point-label-shadow",
+            "paint": {
+                "circle-pitch-alignment": "map",
+                "circle-radius": 15,
+                "circle-color": "#4b433a",
+                "circle-blur": 0.9,
+                "circle-opacity": 0.7
+            },
+            "source-layer": "natural_label"
+        },
+        {
+            "minzoom": 4,
+            "layout": {
+                "text-size": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "step",
+                        [
+                            "get",
+                            "sizerank"
+                        ],
+                        25.2,
+                        5,
+                        14
+                    ],
+                    17,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "sizerank"
+                        ],
+                        16,
+                        13,
+                        13
+                    ]
+                ],
+                "icon-image": "icon-mountain-white",
+                "text-font": [
+                    "Merriweather Bold",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-offset": [
+                    0,
+                    2.7
+                ],
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_en"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-variable-anchor": [
+                    "bottom"
+                ],
+                "icon-offset": [
+                    0,
+                    -20
+                ]
+            },
+            "filter": [
+                "all",
+                [
+                    "has",
+                    "name"
+                ],
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    [
+                        "dock",
+                        "glacier",
+                        "landform",
+                        "water_feature",
+                        "wetland"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    [
+                        "disputed_dock",
+                        "disputed_glacier",
+                        "disputed_landform",
+                        "disputed_water_feature",
+                        "disputed_wetland"
+                    ],
+                    [
+                        "all",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "disputed"
+                            ],
+                            "true"
+                        ],
+                        [
+                            "match",
+                            [
+                                "get",
+                                "worldview"
+                            ],
+                            [
+                                "all",
+                                "US"
+                            ],
+                            true,
+                            false
+                        ]
+                    ],
+                    false
+                ],
+                [
+                    "==",
+                    [
+                        "geometry-type"
+                    ],
+                    "Point"
+                ],
+                [
+                    "<=",
+                    [
+                        "get",
+                        "filterrank"
+                    ],
+                    2
+                ]
+            ],
+            "type": "symbol",
+            "source": "composite",
+            "id": "natural-point-label copy",
+            "paint": {
+                "icon-opacity": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "step",
+                        [
+                            "get",
+                            "sizerank"
+                        ],
+                        0,
+                        5,
+                        1
+                    ],
+                    17,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "sizerank"
+                        ],
+                        0,
+                        13,
+                        1
+                    ]
+                ],
+                "text-halo-color": "#605252",
+                "text-halo-width": 0.5,
+                "text-halo-blur": 0.4,
+                "text-color": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "step",
+                        [
+                            "get",
+                            "sizerank"
+                        ],
+                        "hsl(54, 13%, 100%)",
+                        5,
+                        "hsl(54, 18%, 90%)"
+                    ],
+                    17,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "sizerank"
+                        ],
+                        "hsl(54, 13%, 100%)",
+                        13,
+                        "hsl(54, 18%, 90%)"
+                    ]
+                ]
+            },
+            "source-layer": "natural_label"
+        },
+        {
+            "minzoom": 10,
+            "layout": {
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_en"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-transform": "uppercase",
+                "text-font": [
+                    "Merriweather Black",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-letter-spacing": [
+                    "match",
+                    [
+                        "get",
+                        "type"
+                    ],
+                    "suburb",
+                    0.15,
+                    0.1
+                ],
+                "text-max-width": 7,
+                "text-padding": 3,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.5,
+                        0,
+                        1,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    11,
+                    [
+                        "match",
+                        [
+                            "get",
+                            "type"
+                        ],
+                        "suburb",
+                        11,
+                        10.5
+                    ],
+                    15,
+                    [
+                        "match",
+                        [
+                            "get",
+                            "type"
+                        ],
+                        "suburb",
+                        15,
+                        14
+                    ]
+                ],
+                "visibility": "none"
+            },
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "maxzoom": 15,
+            "filter": [
+                "all",
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    "settlement_subdivision",
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    "disputed_settlement_subdivision",
+                    [
+                        "all",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "disputed"
+                            ],
+                            "true"
+                        ],
+                        [
+                            "match",
+                            [
+                                "get",
+                                "worldview"
+                            ],
+                            [
+                                "all",
+                                "US"
+                            ],
+                            true,
+                            false
+                        ]
+                    ],
+                    false
+                ],
+                [
+                    "<=",
+                    [
+                        "get",
+                        "filterrank"
+                    ],
+                    4
+                ]
+            ],
+            "type": "symbol",
+            "source": "composite",
+            "id": "settlement-subdivision-label",
+            "paint": {
+                "text-halo-color": "hsla(0, 5%, 85%, 0.75)",
+                "text-halo-width": 1,
+                "text-color": "hsl(47, 20%, 97%)",
+                "text-halo-blur": 0.5
+            },
+            "source-layer": "place_label"
+        },
+        {
+            "minzoom": 3,
+            "layout": {
+                "text-line-height": 1.1,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.2,
+                        0,
+                        0.9,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    3,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        12,
+                        9,
+                        11,
+                        10,
+                        10.5,
+                        12,
+                        9.5,
+                        14,
+                        8.5,
+                        16,
+                        6.5,
+                        17,
+                        4
+                    ],
+                    13,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        23,
+                        9,
+                        21,
+                        10,
+                        19,
+                        11,
+                        17,
+                        12,
+                        16,
+                        13,
+                        15,
+                        15,
+                        13
+                    ]
+                ],
+                "text-radial-offset": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "capital"
+                        ],
+                        2,
+                        0.6,
+                        0.55
+                    ],
+                    8,
+                    0
+                ],
+                "icon-image": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "case",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "capital"
+                            ],
+                            2
+                        ],
+                        "border-dot-13",
+                        [
+                            "step",
+                            [
+                                "get",
+                                "symbolrank"
+                            ],
+                            "dot-11",
+                            9,
+                            "dot-10",
+                            11,
+                            "dot-9"
+                        ]
+                    ],
+                    8,
+                    ""
+                ],
+                "text-font": [
+                    "Merriweather Black",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-justify": "auto",
+                "visibility": "none",
+                "text-anchor": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "get",
+                        "text_anchor"
+                    ],
+                    8,
+                    "center"
+                ],
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_en"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-max-width": 7
+            },
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "maxzoom": 13,
+            "filter": [
+                "all",
+                [
+                    "<=",
+                    [
+                        "get",
+                        "filterrank"
+                    ],
+                    3
+                ],
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    "settlement",
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    "disputed_settlement",
+                    [
+                        "all",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "disputed"
+                            ],
+                            "true"
+                        ],
+                        [
+                            "match",
+                            [
+                                "get",
+                                "worldview"
+                            ],
+                            [
+                                "all",
+                                "US"
+                            ],
+                            true,
+                            false
+                        ]
+                    ],
+                    false
+                ],
+                [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        ">",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        6
+                    ],
+                    4,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        7
+                    ],
+                    6,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        8
+                    ],
+                    7,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        10
+                    ],
+                    10,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11
+                    ],
+                    11,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        13
+                    ],
+                    12,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        15
+                    ]
+                ]
+            ],
+            "type": "symbol",
+            "source": "composite",
+            "id": "settlement-minor-label",
+            "paint": {
+                "text-color": "hsl(47, 20%, 87%)",
+                "text-halo-color": "hsl(0, 5%, 85%)",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            },
+            "source-layer": "place_label"
+        },
+        {
+            "minzoom": 3,
+            "layout": {
+                "text-line-height": 1.1,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.2,
+                        0,
+                        0.9,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    3,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        13,
+                        6,
+                        12
+                    ],
+                    6,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        16,
+                        6,
+                        15,
+                        7,
+                        14
+                    ],
+                    8,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        18,
+                        9,
+                        17,
+                        10,
+                        15
+                    ],
+                    15,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        23,
+                        9,
+                        22,
+                        10,
+                        20,
+                        11,
+                        18,
+                        12,
+                        16,
+                        13,
+                        15,
+                        15,
+                        13
+                    ]
+                ],
+                "text-radial-offset": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "capital"
+                        ],
+                        2,
+                        0.6,
+                        0.55
+                    ],
+                    8,
+                    0
+                ],
+                "icon-image": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "case",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "capital"
+                            ],
+                            2
+                        ],
+                        "border-dot-13",
+                        [
+                            "step",
+                            [
+                                "get",
+                                "symbolrank"
+                            ],
+                            "dot-11",
+                            9,
+                            "dot-10",
+                            11,
+                            "dot-9"
+                        ]
+                    ],
+                    8,
+                    ""
+                ],
+                "text-font": [
+                    "Merriweather Black",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-justify": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "text_anchor"
+                        ],
+                        [
+                            "left",
+                            "bottom-left",
+                            "top-left"
+                        ],
+                        "left",
+                        [
+                            "right",
+                            "bottom-right",
+                            "top-right"
+                        ],
+                        "right",
+                        "center"
+                    ],
+                    8,
+                    "center"
+                ],
+                "visibility": "none",
+                "text-anchor": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "get",
+                        "text_anchor"
+                    ],
+                    8,
+                    "center"
+                ],
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_en"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-max-width": 7
+            },
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "maxzoom": 15,
+            "filter": [
+                "all",
+                [
+                    "<=",
+                    [
+                        "get",
+                        "filterrank"
+                    ],
+                    3
+                ],
+                [
+                    "match",
+                    [
+                        "get",
+                        "class"
+                    ],
+                    "settlement",
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ],
+                    "disputed_settlement",
+                    [
+                        "all",
+                        [
+                            "==",
+                            [
+                                "get",
+                                "disputed"
+                            ],
+                            "true"
+                        ],
+                        [
+                            "match",
+                            [
+                                "get",
+                                "worldview"
+                            ],
+                            [
+                                "all",
+                                "US"
+                            ],
+                            true,
+                            false
+                        ]
+                    ],
+                    false
+                ],
+                [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    false,
+                    3,
+                    [
+                        "<=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        6
+                    ],
+                    4,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        7
+                    ],
+                    6,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        8
+                    ],
+                    7,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        10
+                    ],
+                    10,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11
+                    ],
+                    11,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        13
+                    ],
+                    12,
+                    [
+                        "<",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        15
+                    ],
+                    13,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11
+                    ],
+                    14,
+                    [
+                        ">=",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        15
+                    ]
+                ]
+            ],
+            "type": "symbol",
+            "source": "composite",
+            "id": "settlement-major-label",
+            "paint": {
+                "text-color": "hsl(47, 20%, 87%)",
+                "text-halo-color": "hsl(0, 5%, 85%)",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            },
+            "source-layer": "place_label"
+        },
+        {
+            "minzoom": 3,
+            "layout": {
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.85,
+                        0.7,
+                        0.65,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    4,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        10,
+                        6,
+                        9.5,
+                        7,
+                        9
+                    ],
+                    9,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        21,
+                        6,
+                        16,
+                        7,
+                        13
+                    ]
+                ],
+                "text-transform": "uppercase",
+                "text-font": [
+                    "DIN Pro Bold",
+                    "Arial Unicode MS Bold"
+                ],
+                "text-field": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        [
+                            "coalesce",
+                            [
+                                "get",
+                                "name_en"
+                            ],
+                            [
+                                "get",
+                                "name"
+                            ]
+                        ],
+                        5,
+                        [
+                            "coalesce",
+                            [
+                                "get",
+                                "abbr"
+                            ],
+                            [
+                                "get",
+                                "name_en"
+                            ],
+                            [
+                                "get",
+                                "name"
+                            ]
+                        ]
+                    ],
+                    5,
+                    [
+                        "coalesce",
+                        [
+                            "get",
+                            "name_en"
+                        ],
+                        [
+                            "get",
+                            "name"
+                        ]
+                    ]
+                ],
+                "text-letter-spacing": 0.15,
+                "text-max-width": 6,
+                "visibility": "none"
+            },
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "maxzoom": 9,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                "state",
+                [
+                    "match",
+                    [
+                        "get",
+                        "worldview"
+                    ],
+                    [
+                        "all",
+                        "US"
+                    ],
+                    true,
+                    false
+                ],
+                "disputed_state",
+                [
+                    "all",
+                    [
+                        "==",
+                        [
+                            "get",
+                            "disputed"
+                        ],
+                        "true"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ]
+                ],
+                false
+            ],
+            "type": "symbol",
+            "source": "composite",
+            "id": "state-label",
+            "paint": {
+                "text-color": "hsl(47, 20%, 87%)",
+                "text-halo-color": "hsl(0, 5%, 85%)",
+                "text-halo-width": 1
+            },
+            "source-layer": "place_label"
+        },
+        {
+            "minzoom": 1,
+            "layout": {
+                "text-line-height": 1.1,
+                "text-size": [
+                    "interpolate",
+                    [
+                        "cubic-bezier",
+                        0.2,
+                        0,
+                        0.7,
+                        1
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    1,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        11,
+                        4,
+                        9,
+                        5,
+                        8
+                    ],
+                    9,
+                    [
+                        "step",
+                        [
+                            "get",
+                            "symbolrank"
+                        ],
+                        22,
+                        4,
+                        19,
+                        5,
+                        17
+                    ]
+                ],
+                "text-radial-offset": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    0.6,
+                    8,
+                    0
+                ],
+                "icon-image": "",
+                "text-font": [
+                    "Merriweather Black",
+                    "Arial Unicode MS Regular"
+                ],
+                "text-justify": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "text_anchor"
+                        ],
+                        [
+                            "left",
+                            "bottom-left",
+                            "top-left"
+                        ],
+                        "left",
+                        [
+                            "right",
+                            "bottom-right",
+                            "top-right"
+                        ],
+                        "right",
+                        "center"
+                    ],
+                    7,
+                    "auto"
+                ],
+                "visibility": "none",
+                "text-field": [
+                    "coalesce",
+                    [
+                        "get",
+                        "name_en"
+                    ],
+                    [
+                        "get",
+                        "name"
+                    ]
+                ],
+                "text-max-width": 6
+            },
+            "metadata": {
+                "mapbox:featureComponent": "place-labels",
+                "mapbox:group": "Place labels, place-labels"
+            },
+            "maxzoom": 10,
+            "filter": [
+                "match",
+                [
+                    "get",
+                    "class"
+                ],
+                "country",
+                [
+                    "match",
+                    [
+                        "get",
+                        "worldview"
+                    ],
+                    [
+                        "all",
+                        "US"
+                    ],
+                    true,
+                    false
+                ],
+                "disputed_country",
+                [
+                    "all",
+                    [
+                        "==",
+                        [
+                            "get",
+                            "disputed"
+                        ],
+                        "true"
+                    ],
+                    [
+                        "match",
+                        [
+                            "get",
+                            "worldview"
+                        ],
+                        [
+                            "all",
+                            "US"
+                        ],
+                        true,
+                        false
+                    ]
+                ],
+                false
+            ],
+            "type": "symbol",
+            "source": "composite",
+            "id": "country-label",
+            "paint": {
+                "icon-opacity": [
+                    "step",
+                    [
+                        "zoom"
+                    ],
+                    [
+                        "case",
+                        [
+                            "has",
+                            "text_anchor"
+                        ],
+                        1,
+                        0
+                    ],
+                    7,
+                    0
+                ],
+                "text-color": "hsl(47, 20%, 87%)",
+                "text-halo-color": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "zoom"
+                    ],
+                    2,
+                    "hsla(0, 5%, 85%, 0.75)",
+                    3,
+                    "hsl(0, 5%, 85%)"
+                ],
+                "text-halo-width": 1.25
+            },
+            "source-layer": "place_label"
+        },
+        {
+            "id": "sky",
+            "type": "sky",
+            "layout": {},
+            "paint": {
+                "sky-atmosphere-color": "hsl(233, 4%, 94%)",
+                "sky-gradient": [
+                    "interpolate",
+                    [
+                        "linear"
+                    ],
+                    [
+                        "sky-radial-progress"
+                    ],
+                    0.8,
+                    "hsl(197, 43%, 73%)",
+                    1,
+                    "white"
+                ],
+                "sky-atmosphere-sun-intensity": 100
+            }
+        },
+        {
+            "id": "markers-nopitch",
+            "type": "symbol",
+            "paint": {
+                "text-color": "#f8f2f2",
+                "text-halo-color": "#605252",
+                "text-halo-width": 0.8,
+                "text-halo-blur": 0.6
+            },
+            "layout": {
+                "text-size": 20,
+                "icon-offset": [
+                    0,
+                    0
+                ],
+                "icon-image": "labelmarker-round",
+                "text-font": [
+                    "Merriweather Bold",
+                    "Arial Unicode MS Regular"
+                ],
+                "icon-allow-overlap": true,
+                "text-offset": [
+                    "case",
+                    [
+                        "==",
+                        [
+                            "get",
+                            "name"
+                        ],
+                        "Hinterarnialp"
+                    ],
+                    [
+                        "literal",
+                        [
+                            -1,
+                            0
+                        ]
+                    ],
+                    [
+                        "==",
+                        [
+                            "get",
+                            "name"
+                        ],
+                        "Lützelflüh-Goldbach"
+                    ],
+                    [
+                        "literal",
+                        [
+                            -1,
+                            0
+                        ]
+                    ],
+                    [
+                        "literal",
+                        [
+                            1,
+                            0
+                        ]
+                    ]
+                ],
+                "text-anchor": [
+                    "case",
+                    [
+                        "==",
+                        [
+                            "get",
+                            "name"
+                        ],
+                        "Hinterarnialp"
+                    ],
+                    "right",
+                    [
+                        "==",
+                        [
+                            "get",
+                            "name"
+                        ],
+                        "Lützelflüh-Goldbach"
+                    ],
+                    "right",
+                    "left"
+                ],
+                "text-field": [
+                    "concat",
+                    [
+                        "to-string",
+                        [
+                            "get",
+                            "ele_m"
+                        ]
+                    ],
+                    " m.ü.m. | ",
+                    [
+                        "to-string",
+                        [
+                            "get",
+                            "name"
+                        ]
+                    ]
+                ],
+                "text-max-width": 20
+            },
+            "source": "composite",
+            "source-layer": "punkte-6yp8fh",
+            "filter": [
+                "<=",
+                [
+                    "pitch"
+                ],
+                10
+            ]
+        },
+        {
+            "id": "markers",
+            "type": "symbol",
+            "paint": {
+                "text-color": "#f8f2f2",
+                "text-halo-color": "#605252",
+                "text-halo-width": 0.8,
+                "text-halo-blur": 0.6
+            },
+            "layout": {
+                "text-size": 20,
+                "icon-offset": [
+                    0,
+                    -50
+                ],
+                "icon-image": "labelmarker-large-2",
+                "text-font": [
+                    "Merriweather Bold",
+                    "Arial Unicode MS Regular"
+                ],
+                "icon-allow-overlap": true,
+                "text-offset": [
+                    0,
+                    -5.7
+                ],
+                "icon-size": 1.2,
+                "text-field": [
+                    "concat",
+                    [
+                        "to-string",
+                        [
+                            "get",
+                            "ele_m"
+                        ]
+                    ],
+                    " m.ü.m. | ",
+                    [
+                        "to-string",
+                        [
+                            "get",
+                            "name"
+                        ]
+                    ]
+                ],
+                "text-max-width": 20,
+                "icon-ignore-placement": true
+            },
+            "source": "composite",
+            "source-layer": "punkte-6yp8fh",
+            "filter": [
+                ">",
+                [
+                    "pitch"
+                ],
+                10
+            ]
+        }
+    ],
+    "created": "2021-08-08T13:55:07.416Z",
+    "modified": "2022-05-12T21:25:20.639Z",
+    "id": "cks39pts43hdh17qpb1atgpnl",
+    "owner": "imfeld",
+    "visibility": "public",
+    "protected": false,
+    "draft": false
+}

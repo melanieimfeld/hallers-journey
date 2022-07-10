@@ -1,13 +1,17 @@
+import style from './style.json'
+
 /*jshint esversion: 6 */
 export let config = {
     // style: 'mapbox://styles/imfeld/cl21ra1zh000914naab2l38ri',
-    style: 'mapbox://styles/imfeld/cks39pts43hdh17qpb1atgpnl',
+    // style: 'mapbox://styles/imfeld/cks39pts43hdh17qpb1atgpnl',
+    // Prefetch style with `curl https://api.mapbox.com/styles/v1/${ownerId}/${styleId}?access_token=${accessToken}`
+    style,
     accessToken: 'pk.eyJ1IjoiaW1mZWxkIiwiYSI6ImNrZDk1Y2lmcDBzdGMycmx2NWhubnFjd2wifQ.LeVJDbIpVqOhpYeZwJk6mg',
     showMarkers: true,
     markerColor: '#3FB1CE',
     use3dTerrain: false,
     mapAnimation: 'flyTo',
-    followPoint : true,
+    followPoint: true,
     driveSmoothness: 200,
     layers: {
         circle: {
@@ -32,7 +36,7 @@ export let config = {
                 "circle-color": "#4b433a",
                 'circle-pitch-alignment': 'map',
                 "circle-blur": 1,
-                "circle-translate": [0, 2] 
+                "circle-translate": [0, 2]
             }
         },
         line: {
@@ -101,7 +105,7 @@ export let config = {
             description: 'So zogen Haller und Gaschet über die moosigen Wege an den Tannenwäldern des Wegissen vorbei, einem Höhenzug, den schon die Römer kannten. Nicht gänzlich befreit von Romantik lobte Haller die Herrschaftlichkeit der Bauerngüter, die den Wegissen besetzen, und die unbescholtene Fröhlichkeit ihrer Bewohner. Schon bald überquerten die beiden die Emme und näherten sich dem Dorf Lützelflüh-Goldbach. Mehr als die Emme faszinierte Haller ein kleines Flüsschen namens Goldbach, welches dem Dorf seinen Namen gab. Auch wenn sich Haller mehr über die Fabeln amüsiert, die vom Gold des Emmentals handeln, sind viele Flüsse in der Region tatsächlich goldhaltig. Das Gold stammt ursprünglich aus den Alpen, wo es als sogenanntes primäres Gold im Gestein eingeschlossen ist. Bruno Bieri, Geologe und Goldgräber, beschreibt in seinem Text „Kies und Kohle - Nagelfluh und Gold“, wie die voreiszeitliche Ur-aare das Gold zusammen mit Gesteinsschutt aus den Alpen in die Gegend brachte, wo die Masse zu einem riesigen Fächer aufgeschüttet wurde. Durch kontinuierliche Erosion gelangt das Gold vorwiegend in Form von kleinen Goldblättchen bis heute in die Bäche und Flüsse. Es steckt also ein Fünkchen Wahrheit in der Fabel, die besagt, dass am Ursprung eines goldhaltigen Flusses ein Topf mit Gold zu finden sei. Haller und Gaschet jedoch verweilten nicht lange, denn es waren andere Reichtümer, die Haller zur Weiterreise drängten.',
             marker: 'marker2',
             location: {
-                center: [ 7.675979605822949, 47.00282930260984 ],
+                center: [7.675979605822949, 47.00282930260984],
                 zoom: 13.5,
                 pitch: 75,
                 bearing: 69.11
