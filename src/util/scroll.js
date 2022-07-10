@@ -26,12 +26,15 @@ export const actions = {
         const { index, progress, element } = response;
         const chapter = config.chapters.find(chapter => chapter.id === index);
 
+        const atBottom = element.className.includes('footer')
+            || document.body.offsetHeight <= window.innerHeight + window.scrollY;
+
         if (element.className.includes('header')) {
             element.style.opacity = Math.round(1 - progress);
         }
 
         const setCenter = center => {
-            if (!config.followPoint || !center) return;
+            if (!config.followPoint || !center || atBottom) return;
 
             const { lng, lat } = map.getCenter()
             const previous = [lng, lat]
@@ -52,7 +55,7 @@ export const actions = {
             setCenter(geometry.coordinates.slice(-1)[0])
         }
 
-        if (element.className.includes('footer') && map.getPitch() !== 0) {
+        if (atBottom && map.getPitch() !== 0) {
             map.setPitch(0);
             map.fitBounds([
                 [7.411651611328124, 46.93291653811045],
