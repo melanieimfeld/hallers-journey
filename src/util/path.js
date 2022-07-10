@@ -4,7 +4,6 @@ import length from "@turf/length";
 
 /** Takes the initial featureCollection containing 3 features and recalculates each segement to have the same distance between points **/
 function createLine(data, driveSmoothness) {
-
     const geojsonFeatureArray = data.features.map((section) => {
         let geojsonFeature = {
             type: "FeatureCollection",
@@ -37,23 +36,14 @@ function createLine(data, driveSmoothness) {
 
 /** Recalculates path every time scroller is moved **/
 function changeCenter(progress, slide, data) {
-    let currentSegmentPosition = data[slide].features[0].geometry.coordinates.slice(0, progress);
+    const getCoordinates = d => !d ? [] : d.features[0].geometry.coordinates
 
-    let staticLine = (() => {
-        let arr = [];
+    const coordinates = [
+        ...data.slice(0, slide).map(getCoordinates).flat(),
+        ...getCoordinates(data[slide]).slice(0, progress)
+    ];
 
-        if (slide === 0) {
-            return currentSegmentPosition;
-        }
-
-        for (let i = 0; i <= slide - 1 ; i++) {
-            arr = arr.concat(data[i].features[0].geometry.coordinates);
-        }
-        arr = arr.concat(currentSegmentPosition);
-        return arr;
-    })();
-
-    let movingLine = {
+    return {
         type: "FeatureCollection",
         features: [
             {
@@ -61,12 +51,11 @@ function changeCenter(progress, slide, data) {
                 properties: {},
                 geometry: {
                     type: "LineString",
-                    coordinates: staticLine,
+                    coordinates,
                 },
             },
         ],
     };
-    return movingLine
 }
 
 export { createLine, changeCenter }
