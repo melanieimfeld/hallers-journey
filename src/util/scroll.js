@@ -58,6 +58,12 @@ export const actions = {
             }
         }
             
+        if (element.className.includes('footer') && map.getPitch() !== 0) {
+            map.setPitch(0);
+            map.fitBounds([
+                [7.411651611328124, 46.93291653811045],
+                [7.922859191894531, 47.0284823920254]
+            ], { bearing: 76, padding: map.getPadding() });
     }
 }
 }
