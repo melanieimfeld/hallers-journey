@@ -36,13 +36,13 @@ export const actions = {
         const setCenter = center => {
             if (!config.followPoint || !center || atBottom) return;
 
-            const { lng, lat } = map.getCenter()
-            const previous = [lng, lat]
-            const round = x => Math.round(x * 1e3)
-            const isSame = String(previous.map(round)) === String(center.map(round))
-            if (isSame) return;
+            const target = { center, zoom: 13, bearing: chapter.location.bearing, pitch: 65 }
+            const targetKey = JSON.stringify(['easeTo', target])
 
-            map.easeTo({ center, zoom: 13, bearing: chapter.location.bearing, pitch: 65 });
+            if (map.targetKey === targetKey) return;
+            map.targetKey = targetKey
+
+            map.easeTo(target);
         }
 
         const finishedSteps = Math.max(0, index - 1)
@@ -56,11 +56,17 @@ export const actions = {
         }
 
         if (atBottom && map.getPitch() !== 0) {
-            map.setPitch(0);
-            map.fitBounds([
+            const target = [[
                 [7.411651611328124, 46.93291653811045],
                 [7.922859191894531, 47.0284823920254]
-            ], { bearing: 76, padding: map.getPadding() });
+            ], { bearing: 76, padding: map.getPadding() }]
+            const targetKey = JSON.stringify(['fitBounds', target])
+
+            if (map.targetKey === targetKey) return;
+            map.targetKey = targetKey
+
+            map.setPitch(0);
+            map.fitBounds(...target);
         }
     }
 }
