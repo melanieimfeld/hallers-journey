@@ -3,6 +3,7 @@ body {
 	background-color: #fff1e6;
 	margin: 0; 
 	padding: 0;
+    overscroll-behavior: none;
 }
 
 a:hover{

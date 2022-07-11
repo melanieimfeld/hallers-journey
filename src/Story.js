@@ -32,7 +32,7 @@ class Story extends React.Component {
 
     render() {
         const chapters = this.props.chapters;
-        const opacity = this.props.visibility? 'hidden' : 'visible';
+        const opacity = this.props.visibility ? 'hidden' : 'visible';
 
         return (
             <div className='story-container'>
@@ -46,7 +46,7 @@ class Story extends React.Component {
 
 function Footer(props) {
     return (
-        <div className='step left' style={{visibility : props.visibility}}>
+        <div className='step left footer' style={{ visibility: props.visibility }}>
             <h2>{props.title}</h2>
             <hr />
             {props.description}
@@ -56,13 +56,13 @@ function Footer(props) {
 
 function Chapter(props) {
     return (
-        <div className='step left chapter' style={{visibility : props.visibility}}>
+        <div className='step left chapter' style={{ visibility: props.visibility }}>
             <h2>{props.title}</h2>
             <hr />
             <h3>{props.subtitle}</h3>
             <DataViz species={props.species} />
             <p className='mainText'>{props.description}</p>
-            <img alt={props.title} src={getImage(props.id)}/>
+            <img alt={props.title} src={getImage(props.id)} />
             <p className='imgText'>{props.image}</p>
         </div>
     );
@@ -89,7 +89,7 @@ function DataViz(props) {
         <div className='counter-container' >
             <h4 className='icon-text' >Anzahl Spezies:</h4>
             {species.map((elem, idx) =>
-                <img key={idx.toString()} alt={`species ${idx.toString()}`} className='icon' src={flowerIcon} width={33} height={60}/>
+                <img key={idx.toString()} alt={`species ${idx.toString()}`} className='icon' src={flowerIcon} width={33} height={60} />
             )}
         </div>
     );

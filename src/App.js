@@ -22,107 +22,96 @@ mapboxgl.accessToken = config.accessToken;
 export default function App() {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const scroller = scrollama();
-    const data = createLine(rawData, config.driveSmoothness);
-    const feature = {
+    const line = createLine(rawData, config.driveSmoothness);
+    const empty = {
         type: 'FeatureCollection',
-        features: [
-            {
-                type: 'Feature',
-                geometry: {
-                    type: 'LineString',
-                    coordinates: [],
-                },
-            },
-        ],
+        features: [{ type: 'Feature', geometry: { type: 'LineString', coordinates: [] } }],
     };
-    const [isVisible, setVisibility] = useState(false); 
+    const [isVisible, setVisibility] = useState(false);
 
     const handleChange = () => {
         setVisibility(!isVisible);
     }
 
+    // Init scrollama, destroying the previous instance to prevent leaks
+    let scroller = null;
+    const resetScrollama = () => {
+        if (!map.current) return
+        if (scroller) scroller.destroy()
+        scroller = scrollama()
+            .setup({ step: '.step', offset: 0.5, progress: true })
+            .onStepEnter(response => actions.enter(response, config, map.current))
+            .onStepProgress(response => actions.progress(response, config, map.current, line))
+            .onStepExit(response => actions.exit(response));
+    };
+
+    // Since the map emits the `load` event only after fetching tiles,
+    // we need to init scrollama and emit progress events earlier
+    // to make sure the map doesn't load tiles we aren't interested in.
+    // Interval is a hack, there's probably a better way.
+    // We will remove it once the map finished loading.
+    let scrollReset = setInterval(resetScrollama, 200);
+    // Reinit on react renders
+    useEffect(resetScrollama);
+
     useEffect(() => {
+        window.addEventListener('resize', resetScrollama);
+        return () => window.removeEventListener('resize', resetScrollama);
+    });
+
+    // Init mapbox-gl
+    // The earlier map gets the final set of parameters,
+    // the less time it will waste on fetching / rendering the wrong thing,
+    // so we do our best to calculate all settings before calling the constructor
+    // and not call any methods later on
+    useEffect(() => {
+        if (!mapContainer.current) return;
         if (map.current) return;
 
         const { center, zoom, bearing, pitch } = config.chapters[0].location;
+        const { style } = config;
 
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: config.style,
-            center: center,
-            zoom: zoom,
-            bearing: bearing,
-            pitch: pitch,
-            interactive: false
-        })
+            style: {
+                ...style,
+                sources: {
+                    ...style.sources,
+                    lineSource: { type: 'geojson', data: empty },
+                    pointSource: { type: 'geojson', data: empty },
+                    pointSourceBg: { type: 'geojson', data: empty },
+                },
+                layers: [
+                    ...style.layers,
+                    config.layers.line,
+                    config.layers.circleBg, // todo: before markers
+                    config.layers.circle, // todo: before markers
+                ],
+            },
+            center,
+            zoom,
+            bearing,
+            pitch,
+            interactive: false,
+        });
+
+        map.current.on('load', () => {
+            // This is the final time we need to reset scrollama
+            clearInterval(scrollReset);
+            resetScrollama();
+        });
     });
 
+    // Set map padding
     useEffect(() => {
-        map.current.on('load', () => {
-            map.current.addSource('lineSource', {
-                type: 'geojson',
-                data: feature
-            });
+        if (!map.current) return;
 
-            map.current.addSource('pointSource', {
-                type: 'geojson',
-                data: feature
-            });
-
-            map.current.addSource('pointSourceBg', {
-                type: 'geojson',
-                data: feature
-            });
-
-            map.current.addLayer(config.layers.line);
-            map.current.addLayer(config.layers.circleBg, 'markers');
-            map.current.addLayer(config.layers.circle, 'markers');
-
-            const mapContainerSize = mapContainer.current.getBoundingClientRect();
- 
-            let mapOffset = 0;
-            
-            if (mapContainerSize.width >= 551 && mapContainerSize.width <= 1440 ) {
-                mapOffset = 0.28;
-            }
-            if (mapContainerSize.width > 1440) {
-                mapOffset = 0.3;
-            }
-
-            map.current.setPadding({left: mapContainerSize.width * mapOffset});
-           
-            scroller
-                .setup({
-                    step: '.step',
-                    offset: 0.5,
-                    progress: true
-                })
-                .onStepEnter((response) => actions.enter(response, config, map.current))
-                .onStepProgress((response) => actions.progress(response, config, map.current, data))
-                .onStepExit((response) => actions.exit(response));
-            
-            // bottom of page is reached, zoom out to entire route
-            window.onscroll = (ev) => {
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                    map.current.setPitch(0);
-                    map.current.fitBounds([
-                        [
-                            7.411651611328124,
-                            46.93291653811045
-                        ],
-                        [
-                            7.922859191894531,
-                            47.0284823920254
-                        ]
-                    ], {
-                    padding: {left: mapContainerSize.width * mapOffset},
-                    bearing: 76
-                });
-                }
-            };
-
-        });
+        const { width } = mapContainer.current.getBoundingClientRect();
+        const isBig = width > 1440;
+        const isMedium = !isBig && width > 550;
+        const mapOffset = isBig ? 0.3 : isMedium ? 0.28 : 0;
+        const left = width * mapOffset
+        map.current.setPadding({ left });
     });
 
     return (
@@ -136,9 +125,9 @@ export default function App() {
                 description={config.chapters[0].description}
             />
             <Suspense fallback={<div>Loading Component</div>}>
-                <Story chapters={config.chapters} visibility={isVisible}/>
+                <Story chapters={config.chapters} visibility={isVisible} />
             </Suspense>
-            <Button visibility={isVisible} onClick={handleChange}/>
+            <Button visibility={isVisible} onClick={handleChange} />
         </div>
     );
 }
