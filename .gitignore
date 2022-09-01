@@ -3,3 +3,4 @@ build
 package-lock.json
 stats.json
 .DS_Store
+.vercel
